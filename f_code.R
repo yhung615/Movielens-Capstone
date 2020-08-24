@@ -327,7 +327,7 @@ regularization_func <- function(lambda, train, test){
 #define lambda (tuning parameter)
 lambdas <- seq( 0, 10, 0.25 )
 
-#Tune lambda 
+#Tune lambda (made take couple minutes)
 rmses <- sapply(lambdas, regularization_func, train= train_set, test = test_set)
 
 #Plot lambda vs RMSE to find lowest RMSE penalization
@@ -388,7 +388,7 @@ test_dat <- with(test_set, data_memory(user_ind = userId, item_ind = movieId, ra
 #2. Create object
 r<- Reco()
 
-#3. Select tuning parameter
+#3. Select tuning parameter (Takes up to a hour)
 opts <- r$tune(train_dat, opts = list(dim = c(10, 20, 30), lrate = c(0.1, 0.2),
                                       costp_l1 = c(0.01, 0.1), 
                                       costq_l1 = c(0.01, 0.1),
@@ -398,7 +398,7 @@ opts
 #Train algorithm
 r$train(train_dat, opts = c(opts$min, nthread = 4, niter = 20))
 
-#Prediction and add to table
+#Prediction and add to table (takes a couple minutes)
 yh_r<- r$predict(test_dat, out_memory())
 
 head(yh_r,10)
@@ -453,7 +453,7 @@ results %>% knitr::kable()
 validation %>%
   left_join(edx_mov_avgs, by = "movieId") %>%
   left_join(edx_use_avgs, by = "userId") %>%
-  mutate(pred_rate = mu_edx + b_i + b_u) %>%
+  mutate(pred_rate = edx_mu + b_i + b_u) %>%
   arrange(-pred_rate) %>%
   group_by(title) %>%
   select(title) %>%
@@ -488,7 +488,7 @@ validation_r <- with(validation, data_memory(user_ind = userId,
 #Create object
 r<- Reco()
 
-#Select tuning parameters
+#Select tuning parameters (May take up to a hour)
 opts <- r$tune(edx_r, opts = list(dim = c(10,20,30),
                                   lrate = c(0.1,0.2),
                                   costp_l2 = c(0.01, 0.1), 
@@ -498,7 +498,7 @@ opts <- r$tune(edx_r, opts = list(dim = c(10,20,30),
 #Training algorithm
 r$train(edx_r,opts = c(opts$min, nthread=4, niter=20))
 
-#Generating prediction
+#Generating prediction (takes a couple minutes)
 yh_f_r<- r$predict(validation_r, out_memory())
 
 
@@ -513,7 +513,7 @@ results %>% knitr::kable()
 #Show top/worse 5 movies as demonstration of model
 
 # Top 5 best movies:
-tibble(title = validation$title, rating = y_hat_final_reco) %>%
+tibble(title = validation$title, rating = yh_f_r) %>%
   arrange(-rating) %>%
   group_by(title) %>%
   select(title) %>%
