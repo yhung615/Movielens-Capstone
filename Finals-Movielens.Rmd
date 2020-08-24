@@ -258,7 +258,7 @@ results<- bind_rows(results,
                                    RMSE = RMSE(test_set$rating,y_random),
                                    MSE = MSE(test_set$rating,y_random)))
  
-results
+results %>% knitr::kable()
 ```
 
 Note that the results of the RMSE is way above target. This gives us a starting point since random predictions are rarely the right method.
@@ -282,7 +282,7 @@ results <- bind_rows(results,
                                    RMSE = RMSE(test_set$rating,mu),
                                    MSE = MSE(test_set$rating, mu)))
 
-results
+results %>% knitr::kable()
 ```
 
 
@@ -317,7 +317,7 @@ results <- bind_rows(results,
                                      RMSE = RMSE(test_set$rating,yh_b_i),
                                      MSE = MSE(test_set$rating,yh_b_i)))
 
-results
+results %>% knitr::kable()
 ```
 
 
@@ -356,7 +356,7 @@ results<- bind_rows(results,
                                    RMSE = RMSE(test_set$rating, yh_b_i_u),
                                    MSE = MSE(test_set$rating, yh_b_i_u)))
 
-results
+results %>% knitr::kable()
 ```
 
 ## Regularization
@@ -431,7 +431,7 @@ results <- bind_rows(results,
                                    RMSE = RMSE(test_set$rating,yh_reg_u_i),
                                    MSE = MSE(test_set$rating,yh_reg_u_i)))
 
-results
+results %>% knitr::kable()
 ```
 
 
@@ -478,7 +478,7 @@ results <- bind_rows(results,
                      RMSE = RMSE(test_set$rating, yh_r),
                      MSE = MSE(test_set$rating,yh_r)))
  
-results
+results %>% knitr::kable()
 ```
 
 
@@ -510,7 +510,7 @@ results <- bind_rows(results,
                             RMSE = RMSE(validation$rating, edx_yh_rate),
                             MSE  = MSE(validation$rating, edx_yh_rate)))
 
-results 
+results %>% knitr::kable()
 ```
 
 
@@ -548,7 +548,7 @@ results <- bind_rows(results,
                             RMSE = RMSE(validation$rating, yh_f_r),
                             MSE = MSE(validation$rating,yh_f_r)))
  
-results
+results %>% knitr::kable()
 ```
 
 The final RMSE validation for the matrix factorization via recosystem resulted in 0.7827885, which was a better outcome than the final regularization model (0.8648). 
